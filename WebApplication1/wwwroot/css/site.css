@@ -1,0 +1,492 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+  background-color: #56a6f0;
+}
+
+/* Decorative background map using simple blobs for continents */
+.map-bg {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+  /* Base ocean color */
+  background-color: #56a6f0;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+/* Overlay white continents using the provided image as a mask. Place wwwroot/images/world.png in the project. */
+.map-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: #ffffff; /* continents will be white */
+  pointer-events: none;
+  /* Use mask based on image luminance so blue continents in the image reveal the white overlay */
+  -webkit-mask-image: url('/images/world.png');
+  -webkit-mask-size: cover;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-image: url('/images/world.png');
+  mask-mode: luminance;
+  mask-size: cover;
+  mask-repeat: no-repeat;
+  mask-position: center;
+}
+
+@media (max-width: 767.98px) {
+  .map-bg .north-america { left: 4%; top: 14%; width: 36%; height: 18%; }
+  .map-bg .south-america { left: 10%; top: 34%; width: 14%; height: 20%; }
+  .map-bg .europe-asia { left: 30%; top: 16%; width: 52%; height: 24%; }
+  .map-bg .africa { left: 46%; top: 32%; width: 18%; height: 20%; }
+  .map-bg .australia { left: 78%; top: 58%; width: 12%; height: 8%; }
+  .map-bg .greenland { left: 52%; top: 4%; width: 12%; height: 6%; }
+}
+
+.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
+  color: var(--bs-secondary-color);
+  text-align: end;
+}
+
+.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
+  text-align: start;
+}
+
+/* Styling for the World Quiz brand to be thicker and playful */
+.world-quiz-logo {
+  font-family: 'Comic Sans MS', 'Comic Sans', 'Trebuchet MS', cursive;
+  font-weight: 900;
+  font-size: 1.5rem;
+  color: #fff !important;
+  letter-spacing: 0.5px;
+  line-height: 1;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.6);
+}
+
+@media (min-width: 768px) {
+  .world-quiz-logo {
+    font-size: 1.75rem;
+  }
+}
+
+/* Hero / main screen styling */
+.hero {
+  min-height: calc(100vh - 80px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+.hero-title {
+  font-family: 'Comic Sans MS', 'Comic Sans', 'Trebuchet MS', cursive;
+  font-weight: 900;
+  font-size: 4.5rem;
+  color: #fff;
+  -webkit-text-stroke: 4px #000; /* outline effect */
+  text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000;
+  margin: 0 0 1.25rem 0;
+}
+
+@media (max-width: 767.98px) {
+  .hero-title {
+    font-size: 2.5rem;
+    -webkit-text-stroke: 2px #000;
+  }
+}
+
+.start-btn {
+  background-color: #c9402a;
+  color: #ffffff !important;
+  border-radius: 999px;
+  padding: 0.75rem 2rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  position: relative;
+  border: 3px solid #ffffff; /* white outline */
+  box-shadow: 0 0 0 4px #c9402a; /* outer oval ring in requested color */
+}
+
+.start-btn:hover {
+  background-color: #b43623;
+  color: #fff;
+  text-decoration: none;
+}
+
+/* Settings button and panel */
+.settings-wrapper { position: relative; }
+.settings-btn {
+  position: fixed;
+  left: 12px;
+  top: 12px;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  z-index: 1050;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px; /* doubled size */
+  height: 56px; /* doubled size */
+  border-radius: 50%; /* make circular background area */
+}
+.settings-btn svg { display: none; }
+
+/* Three stacked yellow lines for settings button */
+.settings-lines {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 34px;
+  height: 22px;
+  align-items: center;
+  justify-content: center;
+}
+.settings-lines .line {
+  display: block;
+  width: 100%;
+  height: 4px;
+  background: #faf13e;
+  border-radius: 3px;
+  transition: background 120ms ease, transform 120ms ease;
+}
+.settings-btn:hover .settings-lines .line { background: #e0c800; transform: scaleX(1.02); }
+
+.settings-panel {
+  position: fixed;
+  left: 12px;
+  top: 56px;
+  width: 300px;
+  max-width: calc(100% - 24px);
+  background: #faf13e;
+  border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+  padding: 12px;
+  transform: translateY(-10px) scaleY(0.98);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 180ms ease, opacity 180ms ease;
+  z-index: 1040;
+}
+.settings-panel.open {
+  transform: translateY(0) scaleY(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+.settings-btn:hover svg path { filter: brightness(0.9); }
+.settings-section { margin-bottom: 8px; }
+.settings-section h4 { margin: 4px 0 6px 0; font-size: 1rem; }
+.settings-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 6px 8px;
+  margin-bottom: 4px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+/* Page title and continent buttons */
+.page-title {
+  font-family: 'Comic Sans MS', 'Comic Sans', 'Trebuchet MS', cursive;
+  font-weight: 900;
+  font-size: 3.5rem;
+  color: #fff;
+  -webkit-text-stroke: 3px #000;
+  text-shadow: 2px 2px 0 #000;
+  margin: 0 0 1.5rem 0;
+}
+
+.continent-top { margin-bottom: 1rem; }
+.random-btn {
+  background-color: #c0392b; /* red */
+  color: #fff !important;
+  border-radius: 999px;
+  padding: 1.5rem 3.7rem; /* ~68% larger */
+  font-size: 2.27rem; /* ~1.35 * 1.68 */
+  font-weight: 800;
+  border: none;
+  box-shadow: 0 0 0 6px rgba(0,0,0,0.0);
+  transition: transform 120ms ease, box-shadow 120ms ease, filter 120ms ease;
+}
+.random-btn:hover { transform: scale(1.06); background-color: #a82b20; filter: brightness(0.95); }
+
+/* Adjust placement: put Random more centered and continent buttons lower */
+.continent-top {
+  margin-top: 6vh; /* push random slightly toward center */
+}
+.continent-grid.lowered {
+  margin-top: 18vh; /* place other modes much lower */
+}
+
+.continent-grid.row-only {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  padding: 8px 12px;
+  overflow: visible;
+}
+
+.continent-btn {
+  color: #fff !important;
+  border-radius: 999px;
+  padding: 0.6rem 1.6rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  border: 3px solid #ffffff; /* white inner outline */
+  /* allow buttons to shrink so they fit in one row without scrolling */
+  flex: 1 1 0;
+  min-width: 0;
+  text-align: center;
+  transition: transform 120ms ease, box-shadow 120ms ease, border-color 120ms ease, filter 120ms ease;
+}
+.continent-btn:hover { transform: scale(1.04); box-shadow: 0 6px 18px rgba(0,0,0,0.15); border-color: transparent; filter: brightness(0.85); }
+
+/* Explicit darker hover colors per continent to avoid any blue tint and ensure consistent darkening */
+.africa-btn:hover { background-color: #d88b0f; }
+.asia-btn:hover   { background-color: #e65b50; }
+.europe-btn:hover { background-color: #7a3799; }
+.na-btn:hover     { background-color: #219653; }
+.sa-btn:hover     { background-color: #d4b20f; color: #000 !important; }
+.aus-btn:hover    { background-color: #2b86c6; }
+
+/* Remove default focus blue outline for our buttons */
+.continent-btn:focus, .random-btn:focus, .settings-btn:focus {
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+/* Colorful continent buttons with outer oval ring matching the color */
+.africa-btn { background-color: #f39c12; box-shadow: 0 0 0 6px rgba(243,156,18,0.25); }
+.asia-btn   { background-color: #ff6f61; box-shadow: 0 0 0 6px rgba(255,111,97,0.25); }
+.europe-btn { background-color: #8e44ad; box-shadow: 0 0 0 6px rgba(142,68,173,0.25); }
+.na-btn     { background-color: #27ae60; box-shadow: 0 0 0 6px rgba(39,174,96,0.25); }
+.sa-btn     { background-color: #f1c40f; box-shadow: 0 0 0 6px rgba(241,196,15,0.25); color: #000 !important; }
+.aus-btn    { background-color: #3498db; box-shadow: 0 0 0 6px rgba(52,152,219,0.25); }
+
+@media (max-width: 575.98px) {
+  .page-title { font-size: 2rem; -webkit-text-stroke: 2px #000; }
+  .continent-btn { min-width: 140px; font-size: 0.95rem; padding: 0.5rem 1rem; }
+  .random-btn { padding: 0.7rem 1.6rem; font-size: 1.1rem; }
+}
+
+
+/* Pick a mod page title uses similar styling to hero title */
+.page-title {
+  font-family: 'Comic Sans MS', 'Comic Sans', 'Trebuchet MS', cursive;
+  font-weight: 900;
+  font-size: 3.5rem;
+  color: #fff;
+  -webkit-text-stroke: 3px #000;
+  text-shadow: 2px 2px 0 #000;
+  margin: 0 0 1.5rem 0;
+}
+
+.continent-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  max-width: 900px;
+}
+
+.continent-btn {
+  color: #fff !important;
+  border-radius: 999px;
+  padding: 0.6rem 1.6rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  border: 3px solid #ffffff; /* white inner outline */
+  min-width: 180px;
+  text-align: center;
+  box-shadow: 0 0 0 6px rgba(0,0,0,0.0); /* will be overridden per-color */
+}
+
+/* Colorful continent buttons with outer oval ring matching the color */
+.africa-btn { background-color: #f39c12; box-shadow: 0 0 0 6px #f39c12; }
+.asia-btn   { background-color: #e74c3c; box-shadow: 0 0 0 6px #e74c3c; }
+.europe-btn { background-color: #8e44ad; box-shadow: 0 0 0 6px #8e44ad; }
+.na-btn     { background-color: #27ae60; box-shadow: 0 0 0 6px #27ae60; }
+.sa-btn     { background-color: #f1c40f; box-shadow: 0 0 0 6px #f1c40f; color: #000 !important; }
+.aus-btn    { background-color: #3498db; box-shadow: 0 0 0 6px #3498db; }
+
+@media (max-width: 575.98px) {
+  .page-title { font-size: 2rem; -webkit-text-stroke: 2px #000; }
+  .continent-btn { min-width: 140px; font-size: 0.95rem; padding: 0.5rem 1rem; }
+}
+
+.quiz-screen {
+  padding: 24px 0 48px;
+}
+
+.quiz-heading {
+  font-size: 2.2rem;
+}
+
+.quiz-progress {
+  max-width: 720px;
+  margin: 0 auto 16px;
+  color: #fff;
+  font-weight: 700;
+  text-align: left;
+}
+
+.quiz-progress-bar {
+  height: 10px;
+  background: rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-top: 8px;
+}
+
+#quiz-progress-fill {
+  height: 100%;
+  width: 0;
+  background: #faf13e;
+}
+
+.quiz-card {
+  max-width: 720px;
+  margin: 0 auto 16px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  padding: 28px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+}
+
+.quiz-question {
+  display: none;
+}
+
+.quiz-question.is-active {
+  display: block;
+}
+
+.quiz-question.needs-answer {
+  outline: 3px solid #c9402a;
+  outline-offset: 8px;
+  border-radius: 12px;
+}
+
+.quiz-question h2,
+.quiz-result-card h2 {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #123;
+}
+
+.quiz-options {
+  display: grid;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.quiz-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border: 3px solid #d7e8f8;
+  border-radius: 14px;
+  cursor: pointer;
+  background: #fff;
+}
+
+.quiz-option:hover,
+.quiz-option:has(input:checked) {
+  border-color: #3498db;
+  background: #eef7ff;
+}
+
+.quiz-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.result-summary {
+  text-align: center;
+}
+
+.quiz-subtitle {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.quiz-score {
+  font-size: 3rem;
+  font-weight: 900;
+  color: #c9402a;
+  margin: 8px 0 20px;
+}
+
+.quiz-results {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.quiz-result-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 16px 0 0;
+}
+
+.quiz-result-card li {
+  padding: 8px 12px;
+  border-radius: 8px;
+  margin-bottom: 6px;
+  background: #f4f7fb;
+}
+
+.quiz-result-card.is-correct {
+  border-left: 8px solid #27ae60;
+}
+
+.quiz-result-card.is-wrong {
+  border-left: 8px solid #c9402a;
+}
+
+.correct-option {
+  background: #d9f6e3 !important;
+  font-weight: 700;
+}
+
+.selected-option:not(.correct-option) {
+  background: #fadbd8 !important;
+}
+
+.quiz-note {
+  margin-top: 12px;
+  color: #c9402a;
+  font-weight: 700;
+}

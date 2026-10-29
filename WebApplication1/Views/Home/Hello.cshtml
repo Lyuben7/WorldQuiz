@@ -1,0 +1,21 @@
+@{
+    ViewData["Title"] = "Pick a mod";
+}
+
+<div class="hero">
+    <h1 class="page-title">Pick a mod</h1>
+
+    <div class="continent-top">
+            <a class="btn random-btn" asp-controller="Quiz" asp-action="Play" asp-route-id="continents-bg" asp-route-shuffle="true">Random</a>
+        </div>
+
+        <!-- place the other mode buttons much lower on the page -->
+        <div class="continent-grid row-only lowered">
+            <a class="btn continent-btn africa-btn" asp-controller="Quiz" asp-action="Play" asp-route-id="continents-bg">Africa</a>
+            <a class="btn continent-btn asia-btn" asp-controller="Quiz" asp-action="Play" asp-route-id="continents-bg">Asia</a>
+            <a class="btn continent-btn europe-btn" asp-controller="Quiz" asp-action="Play" asp-route-id="continents-bg">Europe</a>
+            <a class="btn continent-btn na-btn" asp-controller="Quiz" asp-action="Play" asp-route-id="continents-bg">North America</a>
+            <a class="btn continent-btn sa-btn" asp-controller="Quiz" asp-action="Play" asp-route-id="continents-bg">South America</a>
+            <a class="btn continent-btn aus-btn" asp-controller="Quiz" asp-action="Play" asp-route-id="continents-bg">Australia</a>
+        </div>
+</div>
