@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="bg"><head>
+<meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>@ViewData["Title"] - QuizLab</title>
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head><body>
+<a class="skip-link" href="#main">Към съдържанието</a>
+<header class="site-header container"><a class="quizlab-logo" asp-controller="Home" asp-action="Index"><span class="logo-mark">W.</span> QUIZLAB</a>
+<nav aria-label="Основна навигация" class="site-nav"><a asp-controller="Home" asp-action="Hello">Всички куизи ↗</a>
+@if (User.Identity?.IsAuthenticated == true) { <a asp-controller="Account" asp-action="Achievements">Постижения</a><form asp-controller="Account" asp-action="Logout" method="post" class="nav-logout"><button type="submit">Изход</button></form> }
+else { <a asp-controller="Account" asp-action="Login">Вход</a><a class="nav-register" asp-controller="Account" asp-action="Register">Регистрация</a> }
+</nav></header>
+<main id="main" class="container">@RenderBody()</main>
+<footer class="site-footer container"><span>© @DateTime.Now.Year QUIZLAB</span><span>Любопитството е начало.</span></footer>
+<script src="~/js/site.js" asp-append-version="true"></script>
+@await RenderSectionAsync("Scripts", required: false)
+</body></html>

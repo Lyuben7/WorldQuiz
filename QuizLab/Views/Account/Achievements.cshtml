@@ -1,0 +1,10 @@
+@model QuizLab.ViewModels.AchievementViewModel
+@{ ViewData["Title"] = "Моите постижения"; }
+<section class="catalog">
+<p class="eyebrow">ЛИЧЕН ПРОФИЛ / @User.Identity?.Name</p><h1 class="page-title">Моите <span>постижения</span></h1>
+<div class="achievement-stats"><article><strong>@Model.CompletedCount</strong><span>завършени куиза</span></article><article><strong>@Model.PerfectCount</strong><span>перфектни резултата</span></article><article><strong>@Model.CorrectCount / @Model.AnsweredCount</strong><span>верни отговори общо</span></article></div>
+@if (Model.Attempts.Count == 0) { <article class="topic-card"><h2>Започни първия си куиз</h2><p>След като влезеш, всеки завършен опит ще се появява тук.</p><a class="btn start-btn" asp-controller="Home" asp-action="Hello">Избери тема ↗</a></article> }
+else { <h2 class="history-heading">История на опитите</h2><div class="attempt-list">
+@foreach (var attempt in Model.Attempts) { var pct = attempt.Total == 0 ? 0 : (int)Math.Round(100.0 * attempt.Score / attempt.Total); <article class="attempt-card"><div><span class="topic-number">@attempt.CompletedAt.ToLocalTime().ToString("dd.MM.yyyy · HH:mm")</span><h2>@attempt.QuizTitle</h2></div><strong>@attempt.Score / @attempt.Total <span>@pct%</span></strong></article> }
+</div> }
+</section>
