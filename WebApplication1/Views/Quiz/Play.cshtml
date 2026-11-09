@@ -1,0 +1,97 @@
+@model WebApplication1.ViewModels.QuizPlayViewModel
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<div class="quiz-screen">
+    <div class="quiz-progress">
+        <span id="quiz-step">Въпрос 1 от @Model.Questions.Count</span>
+        <div class="quiz-progress-bar">
+            <div id="quiz-progress-fill"></div>
+        </div>
+    </div>
+
+    <h1 class="page-title quiz-heading">@Model.Title</h1>
+
+    <form asp-controller="Quiz" asp-action="Submit" method="post" id="quiz-form" class="quiz-card">
+        <input type="hidden" name="Id" value="@Model.Id" />
+
+        @for (var i = 0; i < Model.Questions.Count; i++)
+        {
+            var question = Model.Questions[i];
+            <section class="quiz-question@(i == 0 ? " is-active" : "")" data-index="@i">
+                <h2>@question.Text</h2>
+                <input type="hidden" name="QuestionOrder.Index" value="@i" />
+                <input type="hidden" name="QuestionOrder[@i]" value="@question.Index" />
+                <input type="hidden" name="Answers.Index" value="@i" />
+                <div class="quiz-options">
+                    @for (var optionIndex = 0; optionIndex < question.Options.Count; optionIndex++)
+                    {
+                        var optionId = $"q{i}-o{optionIndex}";
+                        <label class="quiz-option" for="@optionId">
+                            <input id="@optionId" type="radio" name="Answers[@i]" value="@optionIndex" />
+                            <span>@question.Options[optionIndex]</span>
+                        </label>
+                    }
+                </div>
+            </section>
+        }
+
+        <div class="quiz-actions">
+            <button type="button" class="btn continent-btn europe-btn" id="quiz-prev" hidden>Назад</button>
+            <button type="button" class="btn start-btn" id="quiz-next">Напред</button>
+            <button type="submit" class="btn start-btn" id="quiz-submit" hidden>Провери резултата</button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        (function () {
+            const questions = Array.from(document.querySelectorAll('.quiz-question'));
+            const prevBtn = document.getElementById('quiz-prev');
+            const nextBtn = document.getElementById('quiz-next');
+            const submitBtn = document.getElementById('quiz-submit');
+            const stepLabel = document.getElementById('quiz-step');
+            const fill = document.getElementById('quiz-progress-fill');
+            let current = 0;
+
+            function show(index) {
+                questions.forEach((question, i) => question.classList.toggle('is-active', i === index));
+                prevBtn.hidden = index === 0;
+                nextBtn.hidden = index === questions.length - 1;
+                submitBtn.hidden = index !== questions.length - 1;
+                stepLabel.textContent = `Въпрос ${index + 1} от ${questions.length}`;
+                fill.style.width = `${((index + 1) / questions.length) * 100}%`;
+            }
+
+            function currentAnswered() {
+                return questions[current].querySelector('input[type="radio"]:checked');
+            }
+
+            nextBtn.addEventListener('click', function () {
+                if (!currentAnswered()) {
+                    questions[current].classList.add('needs-answer');
+                    return;
+                }
+                questions[current].classList.remove('needs-answer');
+                current += 1;
+                show(current);
+            });
+
+            prevBtn.addEventListener('click', function () {
+                current -= 1;
+                show(current);
+            });
+
+            document.getElementById('quiz-form').addEventListener('submit', function (event) {
+                if (!currentAnswered()) {
+                    event.preventDefault();
+                    questions[current].classList.add('needs-answer');
+                }
+            });
+
+            show(0);
+        })();
+    </script>
+}

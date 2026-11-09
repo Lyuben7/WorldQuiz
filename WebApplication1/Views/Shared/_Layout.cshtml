@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - World Quiz</title>
+    <script type="importmap"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/WebApplication1.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <!-- decorative world map background (SVG silhouette) -->
+    <!-- use user-provided photo as background image; place file at wwwroot/images/world.png -->
+    <div class="map-bg" aria-hidden="true"></div>
+    <header>
+        <div class="settings-wrapper">
+            <button id="settingsToggle" class="settings-btn" aria-label="Settings">
+                <!-- three stacked yellow lines (hamburger-like) -->
+                <span class="settings-lines" aria-hidden="true">
+                    <span class="line"></span>
+                    <span class="line"></span>
+                    <span class="line"></span>
+                </span>
+            </button>
+
+            <div id="settingsPanel" class="settings-panel" aria-hidden="true">
+                <div class="settings-section">
+                    <h4>General</h4>
+                    <button class="settings-item">Profile</button>
+                    <button class="settings-item">Language</button>
+                </div>
+                <div class="settings-section">
+                    <h4>Display</h4>
+                    <button class="settings-item">Theme</button>
+                    <button class="settings-item">Text Size</button>
+                </div>
+                <div class="settings-section">
+                    <h4>About</h4>
+                    <button class="settings-item">Version</button>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+        <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2026 - World Quiz - <a class="text-decoration-underline text-white" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,39 @@
+@model WebApplication1.ViewModels.QuizResultViewModel
+@{
+    ViewData["Title"] = "Резултат";
+}
+
+<div class="quiz-screen">
+    <h1 class="page-title">Резултат</h1>
+    <div class="quiz-card result-summary">
+        <p class="quiz-subtitle">@Model.Title</p>
+        <p class="quiz-score">@Model.Score / @Model.Total</p>
+        <a class="btn start-btn" asp-controller="Quiz" asp-action="Play" asp-route-id="@Model.Id" asp-route-shuffle="true">Опитай отново</a>
+        <a class="btn continent-btn na-btn ms-2" asp-controller="Home" asp-action="Hello">Друг режим</a>
+    </div>
+
+    <div class="quiz-results">
+        @for (var i = 0; i < Model.Items.Count; i++)
+        {
+            var item = Model.Items[i];
+            <article class="quiz-card quiz-result-card @(item.IsCorrect ? "is-correct" : "is-wrong")">
+                <h2>@(i + 1). @item.Text</h2>
+                <ul>
+                    @for (var optionIndex = 0; optionIndex < item.Options.Count; optionIndex++)
+                    {
+                        var css = optionIndex == item.CorrectIndex
+                            ? "correct-option"
+                            : optionIndex == item.SelectedIndex
+                                ? "selected-option"
+                                : "";
+                        <li class="@css">@item.Options[optionIndex]</li>
+                    }
+                </ul>
+                @if (item.SelectedIndex < 0)
+                {
+                    <p class="quiz-note">Няма избран отговор.</p>
+                }
+            </article>
+        }
+    </div>
+</div>
